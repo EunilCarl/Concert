@@ -15,7 +15,7 @@ public class Concert extends JFrame implements ActionListener {
         p = new JPanel();
         p1 = new JPanel();
 
-        
+
         p.setBackground(new Color(204,102,0));
         p.setPreferredSize(new Dimension(500,800));
         p.setLayout(new FlowLayout());
