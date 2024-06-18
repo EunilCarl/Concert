@@ -14,8 +14,11 @@ public class Seat extends JFrame {
     private String tier;
 
     public Seat(String tier) {
+        JPanel head = Header.headerPanel("BPSU Konex");
+        this.add(head, BorderLayout.NORTH);
+
         this.tier = tier;
-        JPanel head = headerPanel("BPSU Konex - " + tier);
+        JPanel headTier = headerPanel("BPSU Konex - " + tier);
         JPanel footer = footerPanel();
 
         JPanel seatsPanel = new JPanel(new GridLayout(ROWS, COLS));
@@ -31,7 +34,7 @@ public class Seat extends JFrame {
         }
 
         JPanel container = new JPanel(new BorderLayout());
-        container.add(head, BorderLayout.NORTH);
+        container.add(headTier, BorderLayout.NORTH);
         container.add(seatsPanel, BorderLayout.CENTER);
         container.add(footer, BorderLayout.SOUTH);
 

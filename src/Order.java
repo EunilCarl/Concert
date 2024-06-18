@@ -7,7 +7,9 @@ public class Order extends JFrame implements ActionListener {
 
     public Order() {
         // Create the header panel
-        JPanel head = headerPanel("Tickets");
+        JPanel head = Header.headerPanel("BPSU Konex");
+        this.add(head, BorderLayout.NORTH);
+        //JPanel head = headerPanel("Tickets");
 
         // Create the main content panel
         JPanel mainPanel = new JPanel();

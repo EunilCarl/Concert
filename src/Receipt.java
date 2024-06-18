@@ -16,12 +16,20 @@ public class Receipt extends JFrame {
     }
 
     private void initUI() {
-        JPanel header = headerPanel();
+        JPanel head = Header.headerPanel("BPSU Konex");
+        JPanel panel = new JPanel();
         JPanel content = contentPanel();
         JPanel footer = footerPanel();
 
+        JLabel label = new JLabel("Order Summary");
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+        panel.setBackground(Color.ORANGE);
+        panel.add(label);
+
+
         this.setLayout(new BorderLayout());
-        this.add(header, BorderLayout.NORTH);
+        this.add(head, BorderLayout.NORTH);
+        this.add(panel,BorderLayout.NORTH);
         this.add(content, BorderLayout.CENTER);
         this.add(footer, BorderLayout.SOUTH);
 
@@ -30,16 +38,9 @@ public class Receipt extends JFrame {
         this.setVisible(true);
     }
 
-    private JPanel headerPanel() {
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.ORANGE);
-        JLabel label = new JLabel("Order Summary");
-        label.setFont(new Font("Arial", Font.BOLD, 24));
-        panel.add(label);
-        return panel;
-    }
 
     private JPanel contentPanel() {
+
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
 
@@ -99,8 +100,7 @@ public class Receipt extends JFrame {
     }
 
     private JPanel footerPanel() {
-        JPanel head = Header.headerPanel("BPSU Konex");
-        this.add(head);
+
         JPanel panel = new JPanel();
         panel.setBackground(Color.LIGHT_GRAY);
         JLabel label = new JLabel("Carose Tickets");
