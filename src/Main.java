@@ -5,8 +5,6 @@ public class Main{
     public static void main (String[] args){
 
        Concert c = new Concert();
-        c.setComp("THE FOUR SEASONS", "img/dos.jpg");
-        c.setComp("BORN PINK WORLD TOUR SEOUL", "img/pink.jpg");
         c.setComp("FOLLOVE SEVENTEEN TOUR", "img/wa.jpg");
         c.setComp("TAYLOR SWIFT THE 1989 WORLD TOUR", "img/1989.jpg");
         c.setComp("THE FELLOWSHIP: BREAK THE WALL", "img/anch.jpg");
@@ -26,6 +24,8 @@ public class Main{
         c.setComp("FRIDAY NIGHT PARTY ", "img/tres.jpg");
         c.setComp("TWICE LIGHT THE WORLD TOUR", "img/twice.jpg");
         c.setComp("BRUNO MARS", "img/uno.jpg");
+
+
 
     }
 }

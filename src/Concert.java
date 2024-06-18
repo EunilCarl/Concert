@@ -5,21 +5,23 @@ import java.awt.event.ActionListener;
 
 public class Concert extends JFrame implements ActionListener {
     JButton b;
-    JPanel p;
+    JPanel mainP;
     JPanel p1;
     JPanel head;
     java.util.List<JButton> buttons;
 
     Concert() {
         head = new JPanel();
-        p = new JPanel();
+        mainP = new JPanel();
         p1 = new JPanel();
 
 
-        p.setBackground(new Color(204,102,0));
-        p.setPreferredSize(new Dimension(500,800));
-        p.setLayout(new FlowLayout());
-        p.add(p1);
+        mainP.setBackground(new Color(204,102,0));
+        mainP.setPreferredSize(new Dimension(300,800));
+        mainP.setLayout(new FlowLayout());
+
+        p1.setPreferredSize(new Dimension(1800,900));
+        mainP.add(p1);
 
 
         buttons = new java.util.ArrayList<>();
@@ -27,7 +29,7 @@ public class Concert extends JFrame implements ActionListener {
         this.setSize(1900, 1000);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.add(p, BorderLayout.SOUTH);
+        this.add(mainP, BorderLayout.SOUTH);
 
     }
 
