@@ -9,9 +9,13 @@ import java.util.Map;
 class Concert extends JFrame implements ActionListener {
     private JPanel mainP;
     private java.util.List<JButton> buttons;
-    private Map<JButton, String> buttonTitleMap;
-    private Map<JButton, String> buttonLocMap;
+    private Map<JButton, String> titleMap;
+    private Map<JButton, String> locMap;
+    private Map<JButton, String> descMap;
+    private Map<JButton, String> dateMap;
+    private Map<JButton, String> placeMap;
 
+// The Homepage or Main Menu
     Concert() {
         mainP = new JPanel();
 
@@ -21,8 +25,11 @@ class Concert extends JFrame implements ActionListener {
         mainP.setPreferredSize(new Dimension(0, 2000));
 
         buttons = new java.util.ArrayList<>();
-        buttonTitleMap = new HashMap<>();
-        buttonLocMap = new HashMap<>();
+        titleMap = new HashMap<>();
+        locMap = new HashMap<>();
+        descMap = new HashMap<>();
+        dateMap = new HashMap<>();
+        placeMap = new HashMap<>();
 
         this.setLayout(new BorderLayout());
         //import header component
@@ -35,7 +42,7 @@ class Concert extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
-    public void setComp(String title, String loc) {
+    public void setComp(String title, String loc, String desc, String date, String place) {
         JPanel p1 = new JPanel();
         JButton b = new JButton();
         b.setText("Buy Tickets");
@@ -46,9 +53,14 @@ class Concert extends JFrame implements ActionListener {
         b.setForeground(Color.WHITE);
        b.setBorder(BorderFactory.createEmptyBorder());
 
+
         buttons.add(b);
-        buttonTitleMap.put(b, title);
-        buttonLocMap.put(b, loc);
+        titleMap.put(b, title);
+        locMap.put(b, loc);
+        descMap.put(b, desc);
+        dateMap.put(b, date);
+        placeMap.put(b, place);
+
 
         ImageIcon img = new ImageIcon(loc);
         Image resized = img.getImage().getScaledInstance(250, 350, Image.SCALE_SMOOTH);
@@ -78,9 +90,12 @@ class Concert extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton sourceButton = (JButton) e.getSource();
-        String title = buttonTitleMap.get(sourceButton);
-        String loc = buttonLocMap.get(sourceButton);
-        new Buy(this, title, loc);
+        String title = titleMap.get(sourceButton);
+        String loc = locMap.get(sourceButton);
+        String desc = descMap.get(sourceButton);
+        String date = dateMap.get(sourceButton);
+        String place = placeMap.get(sourceButton);
+        new Buy(this, title, loc, desc, date, place);
 
     }
 }
