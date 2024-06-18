@@ -11,7 +11,7 @@ public class Buy extends JFrame {
         this.setResizable(false);
 
         JLabel l = new JLabel();
-        l.setText("tangina mo ralph");
+        l.setText("panget mo ralph");
         this.add(l);
     }
 

@@ -27,8 +27,5 @@ public class Main{
         c.setComp("TWICE LIGHT THE WORLD TOUR", "img/twice.jpg");
         c.setComp("BRUNO MARS", "img/uno.jpg");
 
-
-
-
     }
 }
