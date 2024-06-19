@@ -7,16 +7,22 @@ import java.util.Set;
 public class Receipt extends JFrame {
     private Set<String> selectedSeats;
     private String tier;
+    private String concertTitle;
+    private String imagePath;
     private JLabel balanceStatusLabel;
 
-    public Receipt(Set<String> selectedSeats, String tier) {
+    public Receipt(Set<String> selectedSeats, String tier, String concertTitle, String imagePath) {
         this.selectedSeats = selectedSeats;
         this.tier = tier;
+        this.concertTitle = concertTitle;
+        this.imagePath = imagePath;
+        JPanel head = Header.headerPanel("BPSU Konex");
+        this.add(head, BorderLayout.NORTH);
+
         initUI();
     }
 
     private void initUI() {
-        JPanel head = Header.headerPanel("BPSU Konex");
         JPanel panel = new JPanel();
         JPanel content = contentPanel();
         JPanel footer = footerPanel();
@@ -26,10 +32,9 @@ public class Receipt extends JFrame {
         panel.setBackground(Color.ORANGE);
         panel.add(label);
 
-
         this.setLayout(new BorderLayout());
-        this.add(head, BorderLayout.NORTH);
-        this.add(panel,BorderLayout.NORTH);
+
+        this.add(panel, BorderLayout.NORTH);
         this.add(content, BorderLayout.CENTER);
         this.add(footer, BorderLayout.SOUTH);
 
@@ -38,38 +43,89 @@ public class Receipt extends JFrame {
         this.setVisible(true);
     }
 
-
     private JPanel contentPanel() {
+
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new FlowLayout());
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
 
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-        leftPanel.add(new JLabel("<html><b>The Super Stage by KPop</b><br>08/11/2023, 7:00 PM<br>Mall of Asia Arena<br>"));
-        leftPanel.add(new JLabel("<html><b>Tier:</b> " + tier));
-        leftPanel.add(new JLabel("<html><b>Selected Seats:</b> " + selectedSeats));
+
+        Font font = new Font("Arial", Font.PLAIN, 20);
+
+        JLabel eventLabel = new JLabel("<html><b>" + concertTitle + "</b><br>08/11/2023, 7:00 PM<br>Mall of Asia Arena<br>");
+        eventLabel.setFont(font);
+        leftPanel.add(eventLabel);
+
+        JLabel tierLabel = new JLabel("<html><b>Tier:</b> " + tier);
+        tierLabel.setFont(font);
+        leftPanel.add(tierLabel);
+
+        JLabel seatsLabel = new JLabel("<html><b>Selected Seats:</b> " + selectedSeats);
+        seatsLabel.setFont(font);
+        leftPanel.add(seatsLabel);
 
         double pricePerTicket = getPricePerTicket(tier);
         double subtotal = pricePerTicket * selectedSeats.size();
         double total = subtotal + 100; // Including online fee
 
-        leftPanel.add(new JLabel("<html><b>Price per Ticket:</b> PHP " + pricePerTicket));
-        leftPanel.add(new JLabel("<html><b>Subtotal:</b> PHP " + subtotal));
-        leftPanel.add(new JLabel("<html><b>Online Fee:</b> PHP 100"));
-        leftPanel.add(new JLabel("<html><b>Total:</b> PHP " + total));
+        JLabel priceLabel = new JLabel("<html><b>Price per Ticket:</b> PHP " + pricePerTicket);
+        priceLabel.setFont(font);
+        leftPanel.add(priceLabel);
+
+        JLabel subtotalLabel = new JLabel("<html><b>Subtotal:</b> PHP " + subtotal);
+        subtotalLabel.setFont(font);
+        leftPanel.add(subtotalLabel);
+
+        JLabel feeLabel = new JLabel("<html><b>Online Fee:</b> PHP 100");
+        feeLabel.setFont(font);
+        leftPanel.add(feeLabel);
+
+        JLabel totalLabel = new JLabel("<html><b>Total:</b> PHP " + total);
+        totalLabel.setFont(font);
+        leftPanel.add(totalLabel);
+
+        // Add white panel to simulate a receipt look
+        JPanel receiptPanel = new JPanel();
+        receiptPanel.setBackground(Color.WHITE);
+        receiptPanel.setLayout(new BoxLayout(receiptPanel, BoxLayout.Y_AXIS));
+        receiptPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        JLabel receiptTitle = new JLabel("Receipt");
+        receiptTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        receiptPanel.add(receiptTitle);
+
+        receiptPanel.add(new JLabel("---------------------------------------------------"));
+        receiptPanel.add(new JLabel("Item: " + concertTitle));
+        receiptPanel.add(new JLabel("Date: 08/11/2023, 7:00 PM"));
+        receiptPanel.add(new JLabel("Venue: Mall of Asia Arena"));
+        receiptPanel.add(new JLabel("Tier: " + tier));
+        receiptPanel.add(new JLabel("Seats: " + selectedSeats));
+        receiptPanel.add(new JLabel("Price per Ticket: PHP " + pricePerTicket));
+        receiptPanel.add(new JLabel("Subtotal: PHP " + subtotal));
+        receiptPanel.add(new JLabel("Online Fee: PHP 100"));
+        receiptPanel.add(new JLabel("Total: PHP " + total));
+        receiptPanel.add(new JLabel("---------------------------------------------------"));
+
+        leftPanel.add(receiptPanel);
 
         panel.add(leftPanel);
 
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
-        rightPanel.add(new JLabel("Account Number:"));
-        JTextField accountNumberField = new JTextField(20);
+
+        rightPanel.add(new JLabel("Account Name:"));
+        JTextField accountNumberField = new JTextField(15);
+        accountNumberField.setPreferredSize(new Dimension(500, 50));
+        accountNumberField.setFont(new Font("Arial", Font.PLAIN, 20));
         rightPanel.add(accountNumberField);
 
         rightPanel.add(new JLabel("Cash:"));
-        JTextField cashField = new JTextField(20);
+        JTextField cashField = new JTextField(25);
+        cashField.setPreferredSize(new Dimension(600, 50));
+        cashField.setFont(new Font("Arial", Font.PLAIN, 20));
         rightPanel.add(cashField);
 
         balanceStatusLabel = new JLabel("");
@@ -94,13 +150,21 @@ public class Receipt extends JFrame {
         });
 
         rightPanel.add(payButton);
+
+        // Add concert image
+        ImageIcon img = new ImageIcon(imagePath);
+        Image resized = img.getImage().getScaledInstance(450, 550, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(resized);
+        JLabel imageLabel = new JLabel();
+        imageLabel.setIcon(image);
+        leftPanel.add(imageLabel);
+
         panel.add(rightPanel);
 
         return panel;
     }
 
     private JPanel footerPanel() {
-
         JPanel panel = new JPanel();
         panel.setBackground(Color.LIGHT_GRAY);
         JLabel label = new JLabel("Carose Tickets");

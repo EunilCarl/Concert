@@ -4,12 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Order extends JFrame implements ActionListener {
+    private String concertTitle;
+    private String imagePath;
 
-    public Order() {
+    public Order(String concertTitle, String imagePath) {
+        this.concertTitle = concertTitle;
+        this.imagePath = imagePath;
+
         // Create the header panel
         JPanel head = Header.headerPanel("BPSU Konex");
         this.add(head, BorderLayout.NORTH);
-        //JPanel head = headerPanel("Tickets");
 
         // Create the main content panel
         JPanel mainPanel = new JPanel();
@@ -28,15 +32,6 @@ public class Order extends JFrame implements ActionListener {
         this.setSize(1900, 1000);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-    }
-
-    private JPanel headerPanel(String title) {
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.ORANGE);
-        JLabel label = new JLabel(title);
-        label.setFont(new Font("Arial", Font.BOLD, 24));
-        panel.add(label);
-        return panel;
     }
 
     private JPanel createTierPanel(String tierName, String price) {
@@ -58,7 +53,7 @@ public class Order extends JFrame implements ActionListener {
         selectSeatsButton.setFont(new Font("Arial", Font.BOLD, 16));
         selectSeatsButton.setBackground(Color.PINK);
         selectSeatsButton.setForeground(Color.BLACK);
-        selectSeatsButton.addActionListener(e -> new Seat(tierName));
+        selectSeatsButton.addActionListener(e -> new Seat(tierName, concertTitle, imagePath));
 
         panel.add(tierLabel, BorderLayout.NORTH);
         panel.add(priceLabel, BorderLayout.CENTER);
@@ -71,5 +66,4 @@ public class Order extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // This is now handled directly within the createTierPanel method
     }
-
 }

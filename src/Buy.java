@@ -8,8 +8,12 @@ public class Buy extends JFrame implements ActionListener {
     JButton order;
     JButton cancel;
     JFrame main;
+    private String concertTitle;
+    private String imagePath;
 
-    Buy(JFrame main, String title, String loc, String desc, String date, String place) {
+    Buy(JFrame main, String title, String imagePath, String desc, String date, String place) {
+        this.concertTitle = title; // Store the concert title
+        this.imagePath = imagePath; // Store the image path
         this.setLayout(new BorderLayout());
         this.setSize(1900, 1000);
 
@@ -29,7 +33,7 @@ public class Buy extends JFrame implements ActionListener {
         t.setText(title);
         t.setFont(new Font(null, Font.PLAIN, 60));
 
-        ImageIcon img = new ImageIcon(loc);
+        ImageIcon img = new ImageIcon(imagePath);
         JLabel l = new JLabel();
         Image resized = img.getImage().getScaledInstance(650, 750, Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(resized);
@@ -92,7 +96,7 @@ public class Buy extends JFrame implements ActionListener {
             this.dispose(); // Close the Buy window
             main.setVisible(true); // Show the main frame
         } else if (e.getSource() == order) {
-            new Order();
+            new Order(concertTitle, imagePath); // Pass concertTitle and imagePath to Order
         }
     }
 }

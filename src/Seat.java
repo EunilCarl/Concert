@@ -12,12 +12,16 @@ public class Seat extends JFrame {
     private Set<String> selectedSeats = new HashSet<>();
     private JLabel selectedSeatsLabel;
     private String tier;
+    private String concertTitle;
+    private String imagePath;
 
-    public Seat(String tier) {
+    public Seat(String tier, String concertTitle, String imagePath) {
         JPanel head = Header.headerPanel("BPSU Konex");
         this.add(head, BorderLayout.NORTH);
 
         this.tier = tier;
+        this.concertTitle = concertTitle;
+        this.imagePath = imagePath;
         JPanel headTier = headerPanel("BPSU Konex - " + tier);
         JPanel footer = footerPanel();
 
@@ -63,7 +67,7 @@ public class Seat extends JFrame {
         confirmButton.setFont(new Font("Arial", Font.BOLD, 16));
         confirmButton.setBackground(Color.PINK);
         confirmButton.setForeground(Color.BLACK);
-        confirmButton.addActionListener(e -> new Receipt(selectedSeats, tier));
+        confirmButton.addActionListener(e -> new Receipt(selectedSeats, tier, concertTitle, imagePath));
 
         panel.add(selectedSeatsLabel);
         panel.add(confirmButton);
@@ -98,5 +102,4 @@ public class Seat extends JFrame {
             updateSelectedSeatsLabel();
         }
     }
-
 }
