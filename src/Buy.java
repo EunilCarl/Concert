@@ -12,8 +12,8 @@ public class Buy extends JFrame implements ActionListener {
     private String imagePath;
 
     Buy(JFrame main, String title, String imagePath, String desc, String date, String place) {
-        this.concertTitle = title; // Store the concert title
-        this.imagePath = imagePath; // Store the image path
+        this.concertTitle = title;
+        this.imagePath = imagePath;
         this.setLayout(new BorderLayout());
         this.setSize(1900, 1000);
 
@@ -42,8 +42,10 @@ public class Buy extends JFrame implements ActionListener {
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
 
-        JLabel descLabel = new JLabel("<html>" + desc + "</html>"); // Use HTML to preserve line breaks
-        descLabel.setMaximumSize(new Dimension(500, 400)); // Set maximum size for description label
+        JLabel descLabel = new JLabel("<html>" + desc + "</html>");
+        // html to preserve line breaks
+        descLabel.setMaximumSize(new Dimension(500, 400));
+        // Set maximum size for description label
         JLabel dateLabel = new JLabel("Date: " + date);
         JLabel placeLabel = new JLabel("Venue: " + place);
 

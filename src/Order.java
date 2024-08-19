@@ -11,16 +11,16 @@ public class Order extends JFrame implements ActionListener {
         this.concertTitle = concertTitle;
         this.imagePath = imagePath;
 
-        // Create the header panel
+        //header panel
         JPanel head = Header.headerPanel("BPSU Konex");
         this.add(head, BorderLayout.NORTH);
 
-        // Create the main content panel
+        //main panel
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(4, 2, 20, 20));
         mainPanel.setBackground(Color.BLACK);
 
-        // Add tiers
+        //tiers
         mainPanel.add(createTierPanel("Tier A", "PHP 10,350.00"));
         mainPanel.add(createTierPanel("Tier B", "PHP 7,650.00"));
         mainPanel.add(createTierPanel("Tier C", "PHP 4,550.00"));

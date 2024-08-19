@@ -10,6 +10,7 @@ public class Receipt extends JFrame {
     private String concertTitle;
     private String imagePath;
     private JLabel balanceStatusLabel;
+    private JTextField accountNumberField; // Make this a member variable
 
     public Receipt(Set<String> selectedSeats, String tier, String concertTitle, String imagePath) {
         this.selectedSeats = selectedSeats;
@@ -25,7 +26,6 @@ public class Receipt extends JFrame {
     private void initUI() {
         JPanel panel = new JPanel();
         JPanel content = contentPanel();
-        JPanel footer = footerPanel();
 
         JLabel label = new JLabel("Order Summary");
         label.setFont(new Font("Arial", Font.BOLD, 24));
@@ -36,18 +36,13 @@ public class Receipt extends JFrame {
 
         this.add(panel, BorderLayout.NORTH);
         this.add(content, BorderLayout.CENTER);
-        this.add(footer, BorderLayout.SOUTH);
 
-        this.setSize(1900, 1000);
+        this.setSize(1900, 1200); // Increase window height
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
     }
 
     private JPanel contentPanel() {
-
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new FlowLayout());
-
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(1, 2));
 
@@ -94,51 +89,72 @@ public class Receipt extends JFrame {
         receiptPanel.setLayout(new BoxLayout(receiptPanel, BoxLayout.Y_AXIS));
         receiptPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
+        Font receiptFont = new Font("Arial", Font.PLAIN, 24); // Larger font for receipt
+
         JLabel receiptTitle = new JLabel("Receipt");
-        receiptTitle.setFont(new Font("Arial", Font.BOLD, 20));
+        receiptTitle.setFont(new Font("Arial", Font.BOLD, 50)); // Increase font size
         receiptPanel.add(receiptTitle);
 
-        receiptPanel.add(new JLabel("---------------------------------------------------"));
-        receiptPanel.add(new JLabel("Item: " + concertTitle));
-        receiptPanel.add(new JLabel("Date: 08/11/2023, 7:00 PM"));
-        receiptPanel.add(new JLabel("Venue: Mall of Asia Arena"));
-        receiptPanel.add(new JLabel("Tier: " + tier));
-        receiptPanel.add(new JLabel("Seats: " + selectedSeats));
-        receiptPanel.add(new JLabel("Price per Ticket: PHP " + pricePerTicket));
-        receiptPanel.add(new JLabel("Subtotal: PHP " + subtotal));
-        receiptPanel.add(new JLabel("Online Fee: PHP 100"));
-        receiptPanel.add(new JLabel("Total: PHP " + total));
-        receiptPanel.add(new JLabel("---------------------------------------------------"));
-
-        leftPanel.add(receiptPanel);
+        receiptPanel.add(createReceiptLabel("---------------------------------------------------", receiptFont));
+        receiptPanel.add(createReceiptLabel("Item: " + concertTitle, receiptFont));
+        receiptPanel.add(createReceiptLabel("Date: 08/11/2023, 7:00 PM", receiptFont));
+        receiptPanel.add(createReceiptLabel("Venue: Mall of Asia Arena", receiptFont));
+        receiptPanel.add(createReceiptLabel("Tier: " + tier, receiptFont));
+        receiptPanel.add(createReceiptLabel("Seats: " + selectedSeats, receiptFont));
+        receiptPanel.add(createReceiptLabel("Price per Ticket: PHP " + pricePerTicket, receiptFont));
+        receiptPanel.add(createReceiptLabel("Subtotal: PHP " + subtotal, receiptFont));
+        receiptPanel.add(createReceiptLabel("Online Fee: PHP 100", receiptFont));
+        receiptPanel.add(createReceiptLabel("Total: PHP " + total, receiptFont));
+        receiptPanel.add(createReceiptLabel("---------------------------------------------------", receiptFont));
 
         panel.add(leftPanel);
 
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        // Payment Panel
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        rightPanel.add(new JLabel("Account Name:"), gbc);
 
-        rightPanel.add(new JLabel("Account Name:"));
-        JTextField accountNumberField = new JTextField(15);
-        accountNumberField.setPreferredSize(new Dimension(500, 50));
+        accountNumberField = new JTextField(30);
+        accountNumberField.setPreferredSize(new Dimension(300, 30));
         accountNumberField.setFont(new Font("Arial", Font.PLAIN, 20));
-        rightPanel.add(accountNumberField);
+        gbc.gridx = 1;
+        rightPanel.add(accountNumberField, gbc);
 
-        rightPanel.add(new JLabel("Cash:"));
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        rightPanel.add(new JLabel("Cash:"), gbc);
+
         JTextField cashField = new JTextField(25);
-        cashField.setPreferredSize(new Dimension(600, 50));
+        cashField.setPreferredSize(new Dimension(300, 30));
         cashField.setFont(new Font("Arial", Font.PLAIN, 20));
-        rightPanel.add(cashField);
+        gbc.gridx = 1;
+        rightPanel.add(cashField, gbc);
 
         balanceStatusLabel = new JLabel("");
-        rightPanel.add(balanceStatusLabel);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        rightPanel.add(balanceStatusLabel, gbc);
 
         JButton payButton = new JButton("Pay");
         payButton.setBackground(Color.PINK);
+        payButton.setPreferredSize(new Dimension(100, 30));
         payButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     double cash = Double.parseDouble(cashField.getText());
                     if (cash >= total) {
+                        if (e.getSource() == payButton) {
+                            String accountName = accountNumberField.getText();
+                            new Thank(accountName);
+                        }
                         balanceStatusLabel.setText("<html><font color='green'>Transaction Successful!</font>");
                     } else {
                         balanceStatusLabel.setText("<html><font color='red'>Insufficient Balance.</font>");
@@ -149,7 +165,19 @@ public class Receipt extends JFrame {
             }
         });
 
-        rightPanel.add(payButton);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        rightPanel.add(payButton, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 2;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        rightPanel.add(receiptPanel, gbc);
+
+        panel.add(rightPanel);
 
         // Add concert image
         ImageIcon img = new ImageIcon(imagePath);
@@ -159,18 +187,13 @@ public class Receipt extends JFrame {
         imageLabel.setIcon(image);
         leftPanel.add(imageLabel);
 
-        panel.add(rightPanel);
-
         return panel;
     }
 
-    private JPanel footerPanel() {
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.LIGHT_GRAY);
-        JLabel label = new JLabel("Carose Tickets");
-        label.setFont(new Font("Arial", Font.BOLD, 16));
-        panel.add(label);
-        return panel;
+    private JLabel createReceiptLabel(String text, Font font) {
+        JLabel label = new JLabel(text);
+        label.setFont(font);
+        return label;
     }
 
     private double getPricePerTicket(String tier) {
